@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270" fill="none">
+  <!-- A quiet stationery sketch, with open strokes rather than framed characters. -->
+  <ellipse cx="253" cy="237" rx="152" ry="7" fill="#d9e0cd"/>
+  <g stroke="#53644e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M145 65l141-13 17 168-145 10z" fill="#faf8ef"/>
+    <path d="M155 65l-4-13m26 10-3-14m25 12-3-15m25 13-3-14m25 12-2-14m24 12-2-14" stroke="#859574"/>
+    <path d="M179 99l7 5 10-14m8 8 53-5m-75 39 7 5 10-14m8 8 53-5m-75 39 7 5 10-14m8 8 39-4"/>
+    <path d="M188 195l62-6" stroke="#b3bba4"/>
+    <path d="M282 215l59-116 12 6-59 116-14 10z" fill="#c5ac83"/>
+    <path d="M341 99l6-12c4-7 17 0 13 7l-7 11" fill="#ede1cc"/>
+    <path d="M282 215l12 6m-14 10 5-2"/>
+    <path d="M349 226c-6-53-2-93 24-133m-23 95c-20-6-32-19-32-32 21 3 30 15 32 32z" fill="#bac9aa"/>
+    <path d="M352 163c25-5 38-20 38-35-22 5-35 16-38 35zm10-43c-12-15-13-31-7-44 15 14 19 29 7 44z" fill="#a3b595"/>
+    <path d="M349 226l-10-3m10 3 13-3"/>
+    <path d="M97 120l-9-6m13-10-2-8m211-66 7-6m-2 18 10-1" stroke="#b5a17c"/>
+    <path d="M105 217c-14-3-20-12-16-20 6-9 20-1 14 9-8 13-22 18-29 12" stroke="#98a68a"/>
+  </g>
+</svg>

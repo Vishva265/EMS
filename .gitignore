@@ -1,0 +1,10 @@
+node_modules/
+dist/
+target/
+.tools/
+.local/
+.env
+*.log
+*.zip
+.idea/
+.DS_Store
