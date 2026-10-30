@@ -15,7 +15,7 @@ COPY --from=frontend /build/frontend/dist ./src/main/resources/static
 # PostgreSQL integration tests run in CI, not inside the image build.
 RUN mvn --batch-mode --no-transfer-progress -DskipTests package
 
-FROM eclipse-temurin:17-jre-jammy
+FROM eclipse-temurin:22-jre-jammy
 WORKDIR /app
 RUN groupadd --gid 10001 ems && useradd --uid 10001 --gid ems --no-create-home ems
 COPY --from=backend --chown=ems:ems /build/backend/target/employee-management-1.0.0.jar app.jar
