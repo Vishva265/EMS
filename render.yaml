@@ -3,6 +3,7 @@ services:
     name: ems-personnel-office
     runtime: docker
     plan: free
+    region: singapore
     branch: main
     dockerfilePath: ./Dockerfile
     autoDeployTrigger: checksPass

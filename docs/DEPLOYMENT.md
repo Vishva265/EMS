@@ -41,6 +41,8 @@ Default production provisioning creates only the initial admin account on an emp
 
 Choose 'After CI Checks Pass' for automatic deployments (render.yaml uses autoDeployTrigger: checksPass). First deployment must also be checked manually. Health path is /api/auth/csrf. Keep the assigned https://...onrender.com URL for both frontend and API. Do not put a database connection string into React/VITE_ variables.
 
+When creating through the Render connector, automatic deployments are disabled because the connector cannot configure the checks-pass condition. After GitHub checks pass, deploy manually from Render. To enable continuous deployment later, select 'After CI Checks Pass' in the service's dashboard settings; avoid 'On Commit'. The Blueprint file already specifies the checks-pass condition for Blueprint-created services.
+
 ## 4. Verify after deploy
 
 - Visit the HTTPS URL; login page and local SVG assets must load without authentication.
