@@ -20,16 +20,19 @@ public class DemoData implements CommandLineRunner {
   private final EmployeeService employees;
   private final PasswordEncoder passwords;
   private final String password;
+  private final boolean seedDemo;
 
   public DemoData(
       JdbcTemplate db,
       EmployeeService employees,
       PasswordEncoder passwords,
-      @Value("${app.demo-password}") String password) {
+      @Value("${app.demo-password}") String password,
+      @Value("${app.seed-demo:true}") boolean seedDemo) {
     this.db = db;
     this.employees = employees;
     this.passwords = passwords;
     this.password = password;
+    this.seedDemo = seedDemo;
   }
 
   @Override
@@ -41,9 +44,10 @@ public class DemoData implements CommandLineRunner {
       throw new IllegalStateException("DEMO_PASSWORD must have at least 12 characters");
     String hash = passwords.encode(password);
     db.update(
-        "INSERT INTO users(username,password_hash,access_role) VALUES"
-            + " ('admin',?,'Admin'),('manager',?,'Manager')",
-        hash,
+        "INSERT INTO users(username,password_hash,access_role) VALUES ('admin',?,'Admin')", hash);
+    if (!seedDemo) return;
+    db.update(
+        "INSERT INTO users(username,password_hash,access_role) VALUES ('manager',?,'Manager')",
         hash);
     SecurityContextHolder.getContext()
         .setAuthentication(

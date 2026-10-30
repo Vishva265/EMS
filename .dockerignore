@@ -1,0 +1,16 @@
+.git
+.github
+.local
+.tools
+.env
+.env.*
+!.env.example
+**/node_modules
+**/dist
+**/target
+output
+tmp
+docs
+assignment-source
+*.zip
+*.log

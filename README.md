@@ -7,7 +7,7 @@ Candidate code: ______________________________
 GitHub repository URL: ______________________________
 
 ## Stack and architecture
-React 19.2.0 / JavaScript, Vite 7.3.7, Java 17, Spring Boot 3.5.16, Maven, PostgreSQL. Layered monolithic backend with a separate React frontend. Spring JDBC uses explicit parameterized SQL. Exact resolved Java dependencies: docs/backend-dependencies.txt. Frontend packages: frontend/package.json and package-lock.json.
+React 19.2.0 / JavaScript, Vite 7.3.7, Java 17, Spring Boot 4.1.2, Maven, PostgreSQL. Layered monolithic backend with a separate React frontend. Spring JDBC uses explicit parameterized SQL. Exact resolved Java dependencies: docs/backend-dependencies.txt. Frontend packages: frontend/package.json and package-lock.json.
 
 ## Features
 Employee registration/detail/edit/deactivation; personal-field validation; department-based unique codes; transactional department transfers with immutable employee ID/history; combined server-side search, filters, sorting, pagination; JWT login, Admin/Manager/Employee authorization, ownership checks; encrypted Aadhaar/PAN and masked views. Admin can create a linked Employee login from an active employee's profile.
@@ -53,3 +53,6 @@ Local HTTP has COOKIE_SECURE=false. Deployments require HTTPS and secure cookies
 
 ## Assistance disclosure and declaration
 AI assistance was used for requirements interpretation, planning, implementation, interface design, documentation, and testing. The organizer advises against AI use and requires disclosure; disclosure alone does not establish permission. Candidate must accurately disclose assistance, personally verify/understand the submission, and complete the separate ink-signed declaration. No declaration or signature is supplied in this source archive.
+
+## Hosted demo and security checks
+See docs/DEPLOYMENT.md for the Free Render + Neon setup. Dockerfile serves React from Spring Boot at one origin. render.yaml selects Free and waits for passing CI checks. GitHub workflows run builds, PostgreSQL tests, npm audit, Trivy and CodeQL; Dependabot proposes npm/Maven/Actions/Docker updates weekly. SECURITY.md describes scope and limits. Configuration does not mean a live deployment has occurred.
