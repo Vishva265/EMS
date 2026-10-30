@@ -7,7 +7,7 @@ Candidate code: ______________________________
 GitHub repository URL: ______________________________
 
 ## Stack and architecture
-React 19.2.0 / JavaScript, Vite 7.3.7, Java 17, Spring Boot 3.5.16, Maven, PostgreSQL. Layered monolithic backend with a separate React frontend. Spring JDBC uses explicit parameterized SQL. Exact resolved Java dependencies: docs/backend-dependencies.txt. Frontend packages: frontend/package.json and package-lock.json.
+React 19.2.0 / JavaScript, Vite 7.3.7, Java 17, Spring Boot 4.1.2, Maven, PostgreSQL. Layered monolithic backend with a separate React frontend. Spring JDBC uses explicit parameterized SQL. Exact resolved Java dependencies: docs/backend-dependencies.txt. Frontend packages: frontend/package.json and package-lock.json.
 
 ## Features
 Employee registration/detail/edit/deactivation; personal-field validation; department-based unique codes; transactional department transfers with immutable employee ID/history; combined server-side search, filters, sorting, pagination; JWT login, Admin/Manager/Employee authorization, ownership checks; encrypted Aadhaar/PAN and masked views. Admin can create a linked Employee login from an active employee's profile.

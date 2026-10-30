@@ -2,7 +2,7 @@ package in.iaip.ems;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.fasterxml.jackson.databind.*;
+import tools.jackson.databind.*;
 import java.net.*;
 import java.net.http.*;
 import java.time.Duration;
