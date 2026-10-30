@@ -1,5 +1,5 @@
 # Build both parts, then run them at one HTTPS origin behind Render's proxy.
-FROM node:22-bookworm-slim AS frontend
+FROM node:25-bookworm-slim AS frontend
 WORKDIR /build/frontend
 COPY frontend/package*.json ./
 RUN npm ci
