@@ -6,7 +6,7 @@ RUN npm ci
 COPY frontend/ ./
 RUN npm run build
 
-FROM maven:3.9-eclipse-temurin-17 AS backend
+FROM maven:3.9-eclipse-temurin-26 AS backend
 WORKDIR /build/backend
 COPY backend/pom.xml ./
 RUN mvn --batch-mode --no-transfer-progress dependency:go-offline
