@@ -475,4 +475,33 @@ class EmployeeIntegrationTest {
                 Map.of("username", unique(), "password", password))
             .status);
   }
+
+  @Test
+  void expiredCookieDoesNotBlockLoginPageOrCsrfRecovery() throws Exception {
+    var b = new Browser();
+    var uri = URI.create("http://127.0.0.1:" + port + "/");
+    var stale = new HttpCookie("EMS_TOKEN", "invalid-expired-token");
+    stale.setDomain("127.0.0.1");
+    stale.setVersion(0);
+    stale.setPath("/");
+    ((CookieManager) b.client.cookieHandler().orElseThrow()).getCookieStore().add(uri, stale);
+    var page =
+        b.client.send(
+            HttpRequest.newBuilder(uri).GET().build(), HttpResponse.BodyHandlers.ofString());
+    assertEquals(200, page.statusCode());
+    assertTrue(page.body().contains("Login shell fixture"));
+    assertTrue(
+        page.headers()
+            .firstValue("content-security-policy")
+            .orElse("")
+            .contains("frame-ancestors 'none'"));
+    assertEquals(401, b.get("/employees").status);
+    var csrf = b.get("/auth/csrf");
+    assertEquals(200, csrf.status);
+    b.csrf = csrf.body.path("token").asText();
+    assertEquals(
+        200,
+        b.write("POST", "/auth/login", Map.of("username", "admin", "password", password)).status);
+    assertEquals(200, b.get("/auth/me").status);
+  }
 }

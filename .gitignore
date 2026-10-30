@@ -4,6 +4,10 @@ target/
 .tools/
 .local/
 .env
+.env.*
+!.env.example
+*.pem
+*.key
 *.log
 *.zip
 .idea/

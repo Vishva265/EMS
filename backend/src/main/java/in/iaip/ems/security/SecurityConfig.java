@@ -58,9 +58,21 @@ public class SecurityConfig {
   }
 
   @Bean
-  SecurityFilterChain security(HttpSecurity http, JdbcTemplate db) throws Exception {
+  SecurityFilterChain security(
+      HttpSecurity http, JdbcTemplate db, @Value("${app.cookie-secure}") boolean secureCookies)
+      throws Exception {
     var csrf = CookieCsrfTokenRepository.withHttpOnlyFalse();
+    csrf.setCookieCustomizer(cookie -> cookie.secure(secureCookies).sameSite("Strict"));
     http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        .headers(
+            h ->
+                h.contentSecurityPolicy(
+                    c ->
+                        c.policyDirectives(
+                            "default-src 'self'; script-src 'self'; style-src 'self'"
+                                + " 'unsafe-inline'; img-src 'self' data:; font-src 'self';"
+                                + " connect-src 'self'; object-src 'none'; base-uri 'none';"
+                                + " form-action 'self'; frame-ancestors 'none'")))
         .csrf(
             c ->
                 c.csrfTokenRepository(csrf)
@@ -68,6 +80,11 @@ public class SecurityConfig {
         .authorizeHttpRequests(
             a ->
                 a.requestMatchers(
+                        "/",
+                        "/index.html",
+                        "/assets/**",
+                        "/illustrations/**",
+                        "/favicon.ico",
                         "/api/auth/csrf",
                         "/api/auth/login",
                         "/swagger-ui/**",
@@ -81,6 +98,12 @@ public class SecurityConfig {
             o ->
                 o.bearerTokenResolver(
                         request -> {
+                          String path = request.getServletPath();
+                          // An expired cookie must not prevent loading the login screen or signing
+                          // in again.
+                          if (!path.startsWith("/api/")
+                              || path.equals("/api/auth/login")
+                              || path.equals("/api/auth/csrf")) return null;
                           if (request.getCookies() != null)
                             for (var cookie : request.getCookies())
                               if (cookie.getName().equals("EMS_TOKEN")) return cookie.getValue();

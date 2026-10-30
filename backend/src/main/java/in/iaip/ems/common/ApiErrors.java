@@ -11,6 +11,10 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 @RestControllerAdvice
 public class ApiErrors {
+  @ExceptionHandler(org.springframework.web.servlet.resource.NoResourceFoundException.class)
+  ProblemDetail missingResource(Exception e) {
+    return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, "Resource not found.");
+  }
   @ExceptionHandler(org.springframework.security.access.AccessDeniedException.class)
   ProblemDetail forbidden(Exception e) {
     return ProblemDetail.forStatusAndDetail(

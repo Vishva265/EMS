@@ -53,3 +53,6 @@ Local HTTP has COOKIE_SECURE=false. Deployments require HTTPS and secure cookies
 
 ## Assistance disclosure and declaration
 AI assistance was used for requirements interpretation, planning, implementation, interface design, documentation, and testing. The organizer advises against AI use and requires disclosure; disclosure alone does not establish permission. Candidate must accurately disclose assistance, personally verify/understand the submission, and complete the separate ink-signed declaration. No declaration or signature is supplied in this source archive.
+
+## Hosted demo and security checks
+See docs/DEPLOYMENT.md for the Free Render + Neon setup. Dockerfile serves React from Spring Boot at one origin. render.yaml selects Free and waits for passing CI checks. GitHub workflows run builds, PostgreSQL tests, npm audit, Trivy and CodeQL; Dependabot proposes npm/Maven/Actions/Docker updates weekly. SECURITY.md describes scope and limits. Configuration does not mean a live deployment has occurred.
