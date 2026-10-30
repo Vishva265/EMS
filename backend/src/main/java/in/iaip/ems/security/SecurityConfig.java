@@ -7,6 +7,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.config.ObjectPostProcessor;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,6 +20,7 @@ import org.springframework.security.oauth2.jwt.*;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.csrf.*;
+import org.springframework.security.web.authentication.session.NullAuthenticatedSessionStrategy;
 
 @Configuration
 @EnableMethodSecurity
@@ -74,9 +76,24 @@ public class SecurityConfig {
                                 + " connect-src 'self'; object-src 'none'; base-uri 'none';"
                                 + " form-action 'self'; frame-ancestors 'none'")))
         .csrf(
-            c ->
-                c.csrfTokenRepository(csrf)
-                    .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+            c -> {
+              c.csrfTokenRepository(csrf)
+                  .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler())
+                  // JWT validation happens on every request, not only on a new login.
+                  // Keep the CSRF cookie stable across those stateless authentications.
+                  .sessionAuthenticationStrategy(new NullAuthenticatedSessionStrategy());
+              // Resource Server normally exempts bearer-authenticated requests from CSRF.
+              // Our bearer token comes from a browser cookie, so every unsafe method must
+              // require the CSRF token, including requests with a valid login cookie.
+              c.addObjectPostProcessor(
+                  new ObjectPostProcessor<CsrfFilter>() {
+                    @Override
+                    public <O extends CsrfFilter> O postProcess(O filter) {
+                      filter.setRequireCsrfProtectionMatcher(CsrfFilter.DEFAULT_CSRF_MATCHER);
+                      return filter;
+                    }
+                  });
+            })
         .authorizeHttpRequests(
             a ->
                 a.requestMatchers(

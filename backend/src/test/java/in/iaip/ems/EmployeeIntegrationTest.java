@@ -110,6 +110,23 @@ class EmployeeIntegrationTest {
   }
 
   @Test
+  void authenticatedCookieWritesRequireCsrfHeader() throws Exception {
+    var admin = login("admin");
+    var employee = create(admin);
+    String path = "/employees/" + employee.path("id").asLong();
+    var change = Map.of("status", "Inactive", "version", employee.path("version").asLong());
+    assertEquals(403, admin.request("PATCH", path + "/status", change, false).status);
+    String validToken = admin.csrf;
+    admin.csrf = "invalid-token";
+    assertEquals(403, admin.write("PATCH", path + "/status", change).status);
+    var unchanged = admin.get(path).body;
+    assertEquals("Active", unchanged.path("status").asText());
+    assertEquals(employee.path("version"), unchanged.path("version"));
+    admin.csrf = validToken;
+    assertEquals(204, admin.write("PATCH", path + "/status", change).status);
+  }
+
+  @Test
   void loginCsrfAndOwnershipAreEnforced() throws Exception {
     var anonymous = new Browser();
     assertEquals(401, anonymous.get("/employees").status);
